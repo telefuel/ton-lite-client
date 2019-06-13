@@ -1,3 +1,5 @@
+# TON Blockchain Lite Client
+
 This archive is a distribution of a preliminary version of the TON Blockchain Lite Client along with the relevant portions of the TON Blockchain Library. It is not necessarily representative of the totality of the TON Blockchain code developed so far; rather it is a simplified stable version, containing only those files that are necessary for compiling the Lite Client, and sometimes outdated versions of these files sufficient for this purpose.
 
 Use this software at your own risk; consult the DISCLAIMER for more information.
