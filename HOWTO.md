@@ -2,8 +2,7 @@ The aim of this document is to provide step-by-step instructions for compiling a
 
 Download and installation instructions may be found in README. We assume here that the Lite Client is already properly downloaded, compiled and installed.
 
-1) Smart-contract addresses
-------------
+## 1) Smart-contract addresses
 
 Smart-contract addresses in the TON Network consist of two parts: (a) the workchain ID (a signed 32-bit integer) and (b) the address inside the workchain (64-512 bits depending on the workchain). Currently, only the masterchain (workchain_id=-1) and occasionally the basic workchain (workchain_id=0) are running in the TON Blockchain Test Network. Both of them have 256-bit addresses, so we henceforth assume that workchain_id is either 0 or -1 and that the address inside the workchain is exactly 256-bit.
 
@@ -34,8 +33,7 @@ and
 
 in the "user-friendly" form (to be displayed by user-friendly clients). Notice that both forms (base64 and base64url) are valid and must be accepted.
 
-2) Inspecting the state of a smart contract
-------------
+## 2) Inspecting the state of a smart contract
 
 Inspecting the state of smart contracts with the aid of the TON Lite Client is easy. For the sample smart contract described above, you would run the Lite Client and enter the following commands:
 
@@ -96,8 +94,7 @@ We can also see that x{00000000} (the actual value you see may be different) is 
 
 The current balance of the smart contract is easily seen in the pretty-printed portion of the output. In this case, we see ... balance:(currencies:(grams:(nanograms:(... value:1000000000000000...)))), which is the balance of the account in (test) nanograms (a million test Grams in this example; the actual number you see may be smaller). If you study the TL-B scheme provided in crypto/block/scheme.tlb, you will be able to find this number (10^15) in binary big-endian form in the raw dump portion as well (it is located near the end of the data bits of the root cell).
 
-3) Compiling a new smart contract
-------------
+## 3) Compiling a new smart contract
 
 Before uploading a new smart contract into the TON Blockchain, you need to determine its code and data and save them in serialized form into a file (called a "bag-of-cells" or BOC file, usually with a .boc suffix). Let us consider the case of a simple wallet smart contract, which stores a 32-bit operations counter and a 256-bit Ed25519 public key of its owner in its persistent data.
 
@@ -187,12 +184,11 @@ The code and data for the new smart contract are combined into a StateInit struc
 
 Finally, the external message is serialized into a bag of cells (represented by B5EE...BE63) and saved into the file `new-wallet-query.boc`. Essentially, this file is your compiled smart contract with all additional information necessary to upload it into the TON Blockchain.
 
-4) Transferring some funds to the new smart contract
-------------
+## 4) Transferring some funds to the new smart contract
 
 You might try to upload the new smart contract immediately by running the Lite Client and typing
 
-> sendfile new-wallet-query.boc
+`> sendfile new-wallet-query.boc`
 
 Unfortunately, this won't work, because smart contracts must have a positive balance to be able to pay for storing and processing their data in the blockchain. So you have to transfer some funds to your new smart contract address first, displayed during its generation as -1:60c0...c0d0 (in raw form) and 0f9..EKD (in user-friendly form).
 
@@ -200,8 +196,7 @@ In a real scenario, you would either transfer some Grams from your already exist
 
 In the Test Network, you have another option: you can ask the "test giver" to give you some test Grams (up to 20). Let us explain how to do it.
 
-5. Using the test giver smart contract
-------------
+## 5) Using the test giver smart contract
 
 You need to know the address of the test giver smart contract. We'll assume that it is -1:8156775b79325e5d62e742d9b96c30b6515a5cd2f1f64c5da4b193c03f070e0d, or, equivalently, Ef-BVndbeTJeXWLnQtm5bDC2UVpc0vH2TF2ksZPAPwcODSkb, as indicated in one of the previous examples. You inspect the state of this smart contract in the Lite Client by typing
 
@@ -262,8 +257,7 @@ resulting external message: x{89FEA71F4F9849FF1D54203B094BE356FD065FC3B0966139BF
 B5EE9C7241040201000000006600014F89FEA71F4F9849FF1D54203B094BE356FD065FC3B0966139BFDE9DD286E755901EFA00000000000C010072427FB06020A0E353DCB6B430AF3D48E932D6879D4D49174D74E480EA7D41FAE9E068280C6A98B40000000000000000000000000000474946545D6254A9
 ```
 
-6. Uploading the external message to the test giver smart contract
---------
+## 6) Uploading the external message to the test giver smart contract
 
 Now we can invoke the Lite Client, check the state of the test giver (if the sequence number has changed, our external message will fail), and then type
 
@@ -355,8 +349,7 @@ x{CFF60C04141C6A7B96D68615E7A91D265AD0F3A9A922E9AE9C901D4FA83F5D3C0D02025BC2E4A0
 
 Our new smart contract has some positive balance (of 6.666 test Grams), but has no code or data (reflected by `state:account_uninit`).
 
-7. Uploading the code and data of the new smart contract
--------
+## 7) Uploading the code and data of the new smart contract
 
 Now you can finally upload the external message with the StateInit of the new smart contract, containing its code and data:
 
@@ -405,8 +398,7 @@ x{CFF60C04141C6A7B96D68615E7A91D265AD0F3A9A922E9AE9C901D4FA83F5D3C0D020680F0C2E4
 
 You will see that the smart contract has been initialized using code and data from the StateInit of the external message, and its balance has been slightly decreased because of the processing fees. Now it is up and running, and you can activate it by generating new external messages and uploading them to the TON Blockchain using the "sendfile" command of the Lite Client.
 
-8. Using the simple wallet smart contract
---------
+## 8) Using the simple wallet smart contract
 
 Actually, the simple wallet smart contract used in this example can be used to transfer test Grams to any other accounts. It is in this respect similar to the test giver smart contract discussed above, with the difference that it processes only external messages signed by the correct private key (of its owner). In our case, it is the private key saved into the file "new-wallet.pk" during the compilation of the smart contract (see Section 3).
 
