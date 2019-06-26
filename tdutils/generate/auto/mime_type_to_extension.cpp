@@ -1,5 +1,5 @@
 /* ANSI-C code produced by gperf version 3.1 */
-/* Command-line: /usr/local/bin/gperf -m100 auto/mime_type_to_extension.gperf  */
+/* Command-line: /usr/bin/gperf -m100 auto/mime_type_to_extension.gperf  */
 /* Computed positions: -k'1,7,9-10,13-18,20,23,25-26,31,36,$' */
 
 #if !((' ' == 32) && ('!' == 33) && ('"' == 34) && ('#' == 35) \
